@@ -1,0 +1,6 @@
+@WhiteWebTech.Auth_HostAddress = http://localhost:5286
+
+GET {{WhiteWebTech.Auth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

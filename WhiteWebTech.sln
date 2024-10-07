@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{F6063D80-6372-4341-8246-EBF27FAC0496}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GateWays", "GateWays", "{58AA7AE7-B973-4283-BC47-8405921B7F6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{08C0B7CC-36F7-4C34-B8C4-34DA35809934}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteWebTech.API", "WhiteWebTech.API\WhiteWebTech.API.csproj", "{4384F278-EC9B-402A-B64E-F354878F02F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteWebTech.Auth", "WhiteWebTech.Auth\WhiteWebTech.Auth.csproj", "{77B17D3D-2F00-4C15-B6B9-C784A79AB02D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4384F278-EC9B-402A-B64E-F354878F02F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4384F278-EC9B-402A-B64E-F354878F02F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4384F278-EC9B-402A-B64E-F354878F02F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4384F278-EC9B-402A-B64E-F354878F02F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77B17D3D-2F00-4C15-B6B9-C784A79AB02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77B17D3D-2F00-4C15-B6B9-C784A79AB02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77B17D3D-2F00-4C15-B6B9-C784A79AB02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77B17D3D-2F00-4C15-B6B9-C784A79AB02D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4384F278-EC9B-402A-B64E-F354878F02F4} = {08C0B7CC-36F7-4C34-B8C4-34DA35809934}
+		{77B17D3D-2F00-4C15-B6B9-C784A79AB02D} = {08C0B7CC-36F7-4C34-B8C4-34DA35809934}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {149FA6FF-239D-483D-8353-FC31A58BC656}
+	EndGlobalSection
+EndGlobal
