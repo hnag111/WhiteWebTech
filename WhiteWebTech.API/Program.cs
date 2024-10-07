@@ -31,7 +31,7 @@ builder.Services.AddScoped(typeof(DbContext),typeof(WhiteDbContext));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || true)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
