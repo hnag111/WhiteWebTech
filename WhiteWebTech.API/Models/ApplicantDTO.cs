@@ -18,6 +18,6 @@ namespace WhiteWebTech.API.Models
 
         public DateTime CreateDate { get; set; }
 
-        public virtual JobsDTO? Job { get; set; }
+        
     }
 }
