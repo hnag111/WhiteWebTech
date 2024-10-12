@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WhiteWebTech.API.Entities;
 
 public partial class Applicant
 {
-    public int? Id { get; set; }
+    [Key]
+    public int Id { get; set; }
 
     public int? JobId { get; set; }
 
@@ -15,7 +17,8 @@ public partial class Applicant
 
     public int? ApplicantState { get; set; }
 
-    public byte[]? Cv { get; set; }
+    public  byte[]? Cv { get; set; }
+    public required string filename { get; set; }
 
     public DateTime CreateDate { get; set; }
 

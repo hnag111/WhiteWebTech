@@ -14,7 +14,7 @@ namespace WhiteWebTech.API.Models
 
         public int? ApplicantState { get; set; }
 
-        public byte[]? Cv { get; set; }
+        public required IFormFile Cv { get; set; }
 
         public DateTime CreateDate { get; set; }
 

@@ -15,7 +15,7 @@ namespace WhiteWebTech.API
                 config.CreateMap<NewQueryDTO, NewQuery>();
                 config.CreateMap<JobsDTO, Job>();
                 config.CreateMap<Job, JobsDTO>();
-                config.CreateMap<Applicant,ApplicantDTO>();
+                config.CreateMap<Applicant,ApplicantDTO>().ForMember(dest => dest.Cv, opt => opt.Ignore()); ;
                 config.CreateMap<ApplicantDTO,Applicant>();
 
             });

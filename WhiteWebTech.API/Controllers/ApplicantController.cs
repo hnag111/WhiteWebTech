@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using GreenDonut;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WhiteWebTech.API.Entities;
 using WhiteWebTech.API.Models;
 using WhiteWebTech.API.Services.IServices;
@@ -31,7 +33,7 @@ namespace WhiteWebTech.API.Controllers
             try
             {
                 var data = await genericServices.GetAll();
-                if (data != null)
+                if (data.Count != 0)
                 {
                     responseDTO.Result = _mapper.Map<List<ApplicantDTO>>(data);
                 }
@@ -66,42 +68,117 @@ namespace WhiteWebTech.API.Controllers
             return Ok(responseDTO);
         }
 
+
+     
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ApplicantDTO applicantDTO)
+        [Route("PostApplicant")]
+        public async Task<IActionResult> PostApplicant(ApplicantDTO applicantDto)
         {
+            if (applicantDto == null)
+            {
+                return BadRequest("Applicant data is null.");
+            }
+
             try
             {
-                Applicant applicant = _mapper.Map<Applicant>(applicantDTO);
-                var result = await genericServices.Create(applicant);
-                responseDTO.Result = result;
+                // Convert DTO to DB Model
+                var applicant = new Applicant
+                {
+                    JobId = applicantDto.JobId,
+                    ApplicantName = applicantDto.ApplicantName,
+                    ApplicantDescription = applicantDto.ApplicantDescription,
+                    ApplicantState = applicantDto.ApplicantState,
+                    CreateDate = DateTime.UtcNow,
+                    filename = applicantDto.Cv.FileName
+                };
+                // Handle file upload
+                if (applicantDto.Cv != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await applicantDto.Cv.CopyToAsync(memoryStream);
+                        applicant.Cv = memoryStream.ToArray();
+                        
+                    }
+                    var result = await genericServices.Create(applicant);
+                    responseDTO.Result = result;
+                    responseDTO.IsSuccess = true;
+                    return Ok(responseDTO);
+                }
+
             }
             catch (Exception ex)
             {
-                responseDTO.Message = ex.Message;
                 responseDTO.IsSuccess = false;
-                return Ok(responseDTO);
+                responseDTO.Message = ex.Message;
+                return BadRequest();
             }
-            return Ok(responseDTO);
+            responseDTO.IsSuccess = false;
+            responseDTO.Message = "Data cant be null";
+            return BadRequest();
         }
+
+
 
         [HttpPut]
-        public async Task<IActionResult> Update(ApplicantDTO applicantDTO)
+        public async Task<IActionResult> Update(int id ,ApplicantDTO applicantDto)
         {
+            if (applicantDto == null)
+            {
+                return BadRequest("Applicant data is null.");
+            }
+
             try
             {
-                Applicant applicant = _mapper.Map<Applicant>(applicantDTO);
-                await genericServices.Update((int)applicant.Id, applicant);
-                responseDTO.Result = applicantDTO;
+                var applicant = await genericServices.GetById(id);
+                if (applicant == null)
+                {
+                    return NotFound();
+                }
+
+                // Update properties from DTO
+                applicant.JobId = applicantDto.JobId;
+                applicant.ApplicantName = applicantDto.ApplicantName;
+                applicant.ApplicantDescription = applicantDto.ApplicantDescription;
+                applicant.ApplicantState = applicantDto.ApplicantState;
+
+                // Handle file upload if a new CV is provided
+                if (applicantDto.Cv != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await applicantDto.Cv.CopyToAsync(memoryStream);
+                        applicant.Cv = memoryStream.ToArray();
+                        var result = genericServices.Update(id, applicant);
+                        responseDTO.Result = result;
+                        responseDTO.IsSuccess = true;
+                        return Ok(responseDTO);
+
+                    }
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                responseDTO.Message += ex.Message;
+
+                responseDTO.Result = null;
                 responseDTO.IsSuccess = false;
+                return BadRequest(responseDTO);
             }
-            return Ok(responseDTO);
+            return BadRequest(responseDTO);
         }
 
 
+        [HttpGet("DownloadCv/{id}")]
+        public async Task<IActionResult> DownloadCv(int id)
+        {
+            var applicant = await genericServices.GetById(id);
+            if (applicant == null || applicant.Cv == null)
+            {
+                return NotFound();
+            }
 
+            return File(applicant.Cv, "application/octet-stream", applicant.filename);
+        }
     }
 }
